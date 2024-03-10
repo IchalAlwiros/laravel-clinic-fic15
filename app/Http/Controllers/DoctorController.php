@@ -28,9 +28,10 @@ class DoctorController extends Controller
         $request->validate([
             'doctor_name' => 'required',
             'doctor_spesialist'=> 'required',
-            'doctor_phone'=> 'required',
+            'doctor_phone'=> 'required|numeric',
             'doctor_email'=> 'required|email',
             'sip'=> 'required',
+            'address'=> 'required',
         ]);
 
 
@@ -40,6 +41,7 @@ class DoctorController extends Controller
             'doctor_phone'=> $request->doctor_phone,
             'doctor_email'=> $request->doctor_email,
             'sip'=> $request->sip,
+            'address'=> $request->address,
         ]);
 
         return redirect()->route('doctor.index')->with('success', 'Doctor created successfully.');
