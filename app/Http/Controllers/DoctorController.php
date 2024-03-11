@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -56,7 +57,8 @@ class DoctorController extends Controller
 
     // edit
     public function edit ($id){
-        $doctor = DB::table('doctors')->where('id', $id)->first();
+        // $doctor = DB::table('doctors')->where('id', $id)->first();
+        $doctor = Doctor::find($id);
         return view('pages.doctor.edit', compact('doctor'));
     }
 
@@ -71,13 +73,19 @@ class DoctorController extends Controller
         ]);
 
 
-        DB::table('doctors')->where('id', $id)->update([
-            'doctor_name' => $request->doctor_name,
-            'doctor_spesialist'=> $request->doctor_spesialist,
-            'doctor_phone'=> $request->doctor_phone,
-            'doctor_email'=> $request->doctor_email,
-            'sip'=> $request->sip,
-        ]);
+        // DB::table('doctors')->where('id', $id)->update([
+        //     'doctor_name' => $request->doctor_name,
+        //     'doctor_spesialist'=> $request->doctor_spesialist,
+        //     'doctor_phone'=> $request->doctor_phone,
+        //     'doctor_email'=> $request->doctor_email,
+        //     'sip'=> $request->sip,
+        // ]);
+        $doctor = Doctor::find($id);
+        $doctor->doctor_name = $request->doctor_name;
+        $doctor->doctor_spesialist = $request->doctor_spesialist;
+        $doctor->doctor_phone = $request->doctor_phone;
+        $doctor->doctor_email = $request->doctor_email;
+        $doctor->save();
 
         return redirect()->route('doctor.index')->with('success', 'Doctor updated successfully.');
     }
